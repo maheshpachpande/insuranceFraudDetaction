@@ -30,10 +30,10 @@ class InsuranceData:
             """
             if database_name is None:
                 collection = self.mongo_client.database[collection_name]
-                print(collection)
+                
             else:
                 collection = self.mongo_client[database_name][collection_name]
-                print(collection)
+                
 
             df = pd.DataFrame(list(collection.find()))
             if "_id" in df.columns.to_list():
