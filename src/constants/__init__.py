@@ -1,6 +1,10 @@
 import os
 from datetime import date
 
+
+
+DB_NAME = "insurance"
+COLLECTION_NAME = "data"
 # =====================================================
 # 📌 General / Global Constants
 # =====================================================
