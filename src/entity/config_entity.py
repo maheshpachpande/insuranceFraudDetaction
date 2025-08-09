@@ -35,3 +35,15 @@ class DataValidationConfig:
                                             DATA_VALIDATION_DRIFT_REPORT_DIR,
                                                 DATA_VALIDATION_REPORT_FILE)
 
+
+
+@dataclass
+class DataTransformationConfig:
+        data_transformation_dir: str = os.path.join(training_pipeline_config.artifact_dir,DATA_TRANSFORMATION_DIR )
+        transformed_train_file_path: str = os.path.join( data_transformation_dir,DATA_TRANSFORMATION_OUTPUT_DIR,
+        TRAIN_DATA_FILE.replace("csv", "npy"),)
+        transformed_test_file_path: str = os.path.join(data_transformation_dir,  DATA_TRANSFORMATION_OUTPUT_DIR,
+        TEST_DATA_FILE.replace("csv", "npy"), )
+        transformed_object_file_path: str = os.path.join(data_transformation_dir, DATA_TRANSFORMATION_OBJECT_DIR,
+        PREPROCESSOR_FILE_NAME,)
+

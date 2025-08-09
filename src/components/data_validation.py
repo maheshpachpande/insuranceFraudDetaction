@@ -6,7 +6,7 @@ from scipy.stats import ks_2samp
 from sklearn.preprocessing import LabelEncoder
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
-
+from sklearn.preprocessing import StandardScaler
 from src.constants import SCHEMA_FILE_PATH, VALIDATION_OUTPUT_PATH, DATA_VALIDATION_VALIDATED_PATH
 from src.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact
 from src.entity.config_entity import DataIngestionConfig, DataValidationConfig
@@ -161,7 +161,7 @@ class DataValidation:
                 X_train[col] = enc.transform(X_train[col].astype(str))
                 X_test[col] = enc.transform(X_test[col].astype(str))
 
-        from sklearn.preprocessing import StandardScaler
+        
 
         scaler = StandardScaler()
         X_train_scaled = pd.DataFrame(scaler.fit_transform(X_train), columns=X_train.columns)
@@ -222,6 +222,10 @@ class DataValidation:
             if not concept_ok:
                 logging.warning(" Concept drift detected. Accuracy = %.2f", concept_acc)
 
+
+            # Validation status
+            logging.info(f"Schema OK: {schema_ok}, Drift OK: {drift_ok}, Concept OK: {concept_ok}")
+            logging.info(f"Concept Drift Accuracy: {concept_acc:.2f}")
             validation_status = schema_ok and drift_ok and concept_ok
 
             # Copy validated files

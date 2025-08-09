@@ -41,8 +41,8 @@ DATA_VALIDATION_DIR: str = "data_validation"
 DATA_VALIDATION_VALID_DIR: str = "validated"
 DATA_VALIDATION_DRIFT_REPORT_DIR: str = "drift_report"
 
-DATA_VALIDATION_PRIOR_REPORT_FILE: str = "prior_report.yaml"
-DATA_VALIDATION_REPORT_FILE: str = "report.yaml"
+DATA_VALIDATION_PRIOR_REPORT_FILE: str = "probability_drift_target_column.yaml"
+DATA_VALIDATION_REPORT_FILE: str = "dataset_drift.yaml"
 
 DATA_VALIDATION_VALIDATED_PATH: str = os.path.join(
     ARTIFACT_DIR, DATA_VALIDATION_DIR, DATA_VALIDATION_VALID_DIR
@@ -52,8 +52,8 @@ DATA_VALIDATION_VALIDATED_PATH: str = os.path.join(
 # 📌 Data Transformation
 # =====================================================
 DATA_TRANSFORMATION_DIR: str = "data_transformation"
-DATA_TRANSFORMATION_OUTPUT_DIR: str = "transformed"
-DATA_TRANSFORMATION_OBJECT_DIR: str = "transformed_object"
+DATA_TRANSFORMATION_OUTPUT_DIR: str = "transformed_numpy_array"
+DATA_TRANSFORMATION_OBJECT_DIR: str = "transformed_binary_object"
 
 # =====================================================
 # 📌 Model Training
