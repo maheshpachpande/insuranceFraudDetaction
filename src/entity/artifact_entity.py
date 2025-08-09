@@ -23,7 +23,6 @@ class DataTransformationArtifact:
     transformed_test_file_path: str
 
 
-
 @dataclass
 class ClassificationMetricArtifact:
     f1_score: float

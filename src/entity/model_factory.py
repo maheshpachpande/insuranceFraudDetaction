@@ -1,11 +1,12 @@
 import yaml
+import sys
 import numpy as np
 import pandas as pd
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 from sklearn.model_selection import GridSearchCV
 from sklearn.base import BaseEstimator
-
+from src.exception import CustomException
 
 @dataclass
 class BestModelDetail:
@@ -23,21 +24,18 @@ class ModelFactory:
         self.models_config = self._load_model_config()
 
     def _load_model_config(self) -> Dict:
-        """Load YAML model config file."""
+        """Load YAML config file for model ."""
         try:
             with open(self.model_config_path, 'r') as file:
                 return yaml.safe_load(file)
-        except FileNotFoundError:
-            raise FileNotFoundError(f"Model config file not found at: {self.model_config_path}")
-        except yaml.YAMLError as e:
-            raise ValueError(f"Error parsing YAML file: {e}")
+        except Exception as e:
+            raise CustomException(e, sys)
 
-    def get_best_model(
-        self,
-        X_train: pd.DataFrame,
-        y_train: pd.Series,
-        base_accuracy: float = 0.6
-    ) -> BestModelDetail:
+    def get_best_model(self,
+                        X_train: pd.DataFrame,
+                        y_train: pd.Series,
+                        base_accuracy: float = 0.6
+                    ) -> BestModelDetail:
         """
         Train multiple models from config and return the one with the best CV score.
         """
@@ -49,7 +47,6 @@ class ModelFactory:
         for model_name, model_info in self.models_config.items():
             try:
                 model_class = self._import_model_class(model_info['class'])
-                print(f"Training model: {model_name} with class {model_info['class']}")
                 param_grid = model_info.get('params', {})
 
                 scoring = self._get_scoring(problem_type)
@@ -70,8 +67,9 @@ class ModelFactory:
                 print(f"Model: {model_name}, Best Score: {search.best_score_}, Best Params: {search.best_params_}")
 
             except Exception as e:
-                print(f"Error training model {model_name}: {e}")
-
+                raise CustomException(e, sys)
+            
+            
         if best_model is None:
             raise ValueError("No model met the base accuracy requirement.")
 

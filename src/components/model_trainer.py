@@ -31,22 +31,16 @@ class ModelTrainer:
     def get_model_object_and_report(
         self, train: np.ndarray, test: np.ndarray
     ) -> Tuple[BestModelDetail, ClassificationMetricArtifact]:
-        """
-        Trains and returns the best model along with evaluation metrics.
-        """
         try:
             logging.info("Using ModelFactory to get best model object and report")
             model_factory = ModelFactory(model_config_path=self.model_trainer_config.model_config_file_path)
 
             x_train, y_train = train[:, :-1], train[:, -1]
             x_test, y_test = test[:, :-1], test[:, -1]
-            
-           
 
             encoder = LabelEncoder()
-            y_train = encoder.fit_transform(y_train)  # 'N' -> 0, 'Y' -> 1
-            y_test  = encoder.transform(y_test)
-
+            y_train = encoder.fit_transform(y_train)
+            y_test = encoder.transform(y_test)
 
             best_model_detail = model_factory.get_best_model(
                 X_train=x_train,
@@ -54,18 +48,29 @@ class ModelTrainer:
                 base_accuracy=self.model_trainer_config.expected_accuracy
             )
 
-            y_pred = best_model_detail.best_model.predict(x_test)
+            # Predict on train and test to check overfitting
+            y_train_pred = best_model_detail.best_model.predict(x_train)
+            y_test_pred = best_model_detail.best_model.predict(x_test)
+
+            f1_train = f1_score(y_train, y_train_pred)
+            f1_test = f1_score(y_test, y_test_pred)
+
+            # Check overfitting: if train score much higher than test score (threshold can be tuned)
+            overfit_threshold = 0.1  # e.g. 10% difference allowed
+            if (f1_train - f1_test) > overfit_threshold:
+                raise Exception(f"Overfitting detected: F1 train={f1_train:.3f}, F1 test={f1_test:.3f}")
 
             metric_artifact = ClassificationMetricArtifact(
-                f1_score=f1_score(y_test, y_pred),
-                precision_score=precision_score(y_test, y_pred),
-                recall_score=recall_score(y_test, y_pred)
+                f1_score=f1_test,
+                precision_score=precision_score(y_test, y_test_pred),
+                recall_score=recall_score(y_test, y_test_pred)
             )
 
-            return (best_model_detail, metric_artifact)
+            return best_model_detail, metric_artifact
 
         except Exception as e:
-            print(e)
+            logging.error(f"Error during model training and evaluation: {e}")
+            raise e
 
     def initiate_model_trainer(self) -> ModelTrainerArtifact:
         logging.info("Entered initiate_model_trainer method of ModelTrainer class")
