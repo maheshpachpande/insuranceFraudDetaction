@@ -19,3 +19,19 @@ class DataIngestionConfig:
     testing_file_path: str = os.path.join(data_ingestion_dir, DATA_INGESTION_INGESTED_DIR, TEST_DATA_FILE)
     train_test_split_ratio: float = DATA_INGESTION_TRAIN_TEST_SPLIT_RATIO
     collection_name:str = COLLECTION_NAME
+    
+    
+    
+@dataclass
+class DataValidationConfig:        
+    data_validation_dir: str = os.path.join(training_pipeline_config.artifact_dir, DATA_VALIDATION_DIR)
+    valid_data_dir: str = os.path.join(data_validation_dir, DATA_VALIDATION_VALID_DIR)
+    valid_train_file_path: str = os.path.join(valid_data_dir, TRAIN_DATA_FILE)
+    valid_test_file_path: str = os.path.join(valid_data_dir, TEST_DATA_FILE)
+    prior_drift_report_file_path: str = os.path.join(data_validation_dir,
+                                            DATA_VALIDATION_DRIFT_REPORT_DIR,
+                                            DATA_VALIDATION_PRIOR_REPORT_FILE)
+    drift_report_file_path: str = os.path.join(data_validation_dir,
+                                            DATA_VALIDATION_DRIFT_REPORT_DIR,
+                                                DATA_VALIDATION_REPORT_FILE)
+

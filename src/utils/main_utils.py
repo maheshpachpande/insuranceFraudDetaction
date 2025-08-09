@@ -5,7 +5,7 @@ import numpy as np
 import dill
 import yaml
 from pandas import DataFrame
-from box import Box
+from box import ConfigBox
 from src.exception import CustomException
 from src.logger import logging
 
@@ -15,7 +15,7 @@ from src.logger import logging
 def read_yaml_file(file_path: str) -> dict:
     try:
         with open(file_path, "rb") as yaml_file:
-            return Box(yaml.safe_load(yaml_file))
+            return ConfigBox(yaml.safe_load(yaml_file))
 
     except Exception as e:
         raise CustomException(e, sys) 

@@ -1,5 +1,6 @@
 from src.configuration.mongoDB_connection import MongoDBClient
-from src.constants import DB_NAME, COLLECTION_NAME
+from src.constants import DB_NAME, COLLECTION_NAME, SCHEMA_FILE_PATH
+from src.utils.main_utils import read_yaml_file
 from src.exception import CustomException
 import pandas as pd
 import sys
@@ -18,6 +19,7 @@ class InsuranceData:
         """
         try:
             self.mongo_client = MongoDBClient(database_name=DB_NAME)
+            
         except Exception as e:
             raise CustomException(e,sys)
         
@@ -38,7 +40,10 @@ class InsuranceData:
             df = pd.DataFrame(list(collection.find()))
             if "_id" in df.columns.to_list():
                 df = df.drop(columns=["_id"], axis=1)
+                  
             df.replace({"na":np.nan},inplace=True)
+             
+            
             return df
         except Exception as e:
             raise CustomException(e,sys)
