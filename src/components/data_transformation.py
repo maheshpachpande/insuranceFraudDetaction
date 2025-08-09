@@ -1,20 +1,14 @@
 import sys
 import numpy as np
 import pandas as pd
-from typing import Optional, List, Union
-from imblearn.combine import SMOTETomek
 
-from sklearn.pipeline import Pipeline
-from sklearn.impute import SimpleImputer
-from sklearn.compose import ColumnTransformer
-from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.preprocessing import RobustScaler, OneHotEncoder, OrdinalEncoder
+from imblearn.combine import SMOTETomek
 
 from src.logger import logging
 from src.exception import CustomException
 from src.target_mapping import TargetValueMapping
-from src.feature_engineering import CustomFeatureEngineer, DataTransformer
-from src.constants import TARGET_COLUMN, DATA_VALIDATION_VALIDATED_PATH, VALIDATION_OUTPUT_PATH
+from src.feature_engineering import DataTransformer
+from src.constants import TARGET_COLUMN, VALIDATION_OUTPUT_PATH
 from src.utils.main_utils import save_numpy_array_data, save_object, read_yaml_file
 from src.entity.config_entity import DataValidationConfig, DataTransformationConfig
 from src.entity.artifact_entity import DataTransformationArtifact, DataValidationArtifact

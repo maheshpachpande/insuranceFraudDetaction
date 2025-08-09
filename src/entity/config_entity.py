@@ -47,3 +47,16 @@ class DataTransformationConfig:
         transformed_object_file_path: str = os.path.join(data_transformation_dir, DATA_TRANSFORMATION_OBJECT_DIR,
         PREPROCESSOR_FILE_NAME,)
 
+
+
+@dataclass
+class ModelTrainerConfig:
+        model_trainer_dir: str = os.path.join(training_pipeline_config.artifact_dir, MODEL_TRAINED_DIR)
+        trained_model_file_path: str = os.path.join(model_trainer_dir, MODEL_TRAINED_OUTPUT_DIR, MODEL_FILE_NAME)
+        expected_accuracy: float = MODEL_TRAINED_EXPECTED_SCORE
+        overfitting_underfitting_threshold = MODEL_TRAINED_OVERFIT_THRESHOLD
+        artifact_yaml_path = os.path.join(ARTIFACT_DIR, MODEL_TRAINED_DIR, MODEL_ARTIFACT_FILE_NAME)
+        model_config_file_path: str = MODEL_TRAINER_MODEL_CONFIG_FILE_PATH
+
+
+

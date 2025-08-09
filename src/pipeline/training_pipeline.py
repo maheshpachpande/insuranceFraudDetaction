@@ -5,14 +5,17 @@ from src.logger import logging
 from src.components.data_ingestion import DataIngestion
 from src.components.data_validation import DataValidation
 from src.components.data_transformation import DataTransformation
+from src.components.model_trainer import ModelTrainer
 
 from src.entity.config_entity import (DataIngestionConfig,
                                       DataValidationConfig,
-                                      DataTransformationConfig)
+                                      DataTransformationConfig,
+                                      ModelTrainerConfig)
                                           
 from src.entity.artifact_entity import (DataIngestionArtifact,
                                         DataValidationArtifact,
-                                        DataTransformationArtifact)
+                                        DataTransformationArtifact,
+                                        ModelTrainerArtifact)
 
 
 
@@ -77,6 +80,27 @@ class TrainPipeline:
             raise CustomException(e, sys)
     
     
+    def start_model_trainer(self, data_transformation_artifact: DataTransformationArtifact) -> ModelTrainerArtifact:
+        """
+        This method of TrainPipeline class is responsible for starting model training component
+        """
+        try:
+            logging.info("Entered the start_model_trainer method of TrainPipeline class")
+            
+            model_trainer_config = ModelTrainerConfig()
+            model_trainer = ModelTrainer(data_transformation_artifact=data_transformation_artifact,
+                                         model_trainer_config=model_trainer_config)
+            model_trainer_artifact = model_trainer.initiate_model_trainer()
+            
+            logging.info("Exited the start_model_trainer method of TrainPipeline class")
+            return model_trainer_artifact
+        
+        except Exception as e:
+            raise CustomException(e, sys)
+        
+        
+        
+    
     def run_pipeline(self, ) -> None:
         """
         This method of TrainPipeline class is responsible for running complete pipeline
@@ -85,6 +109,7 @@ class TrainPipeline:
             data_ingestion_artifact = self.start_data_ingestion()
             data_validation_artifact = self.start_data_validation(data_ingestion_artifact=data_ingestion_artifact)
             data_transformation_artifact = self.start_data_transformation(data_validation_artifact=data_validation_artifact)
+            model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
             
             logging.info("Pipeline run completed successfully.")
         except Exception as e:

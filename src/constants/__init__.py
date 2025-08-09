@@ -58,11 +58,13 @@ DATA_TRANSFORMATION_OBJECT_DIR: str = "transformed_binary_object"
 # =====================================================
 # 📌 Model Training
 # =====================================================
-MODEL_TRAINER_DIR: str = "model_trainer"
-MODEL_TRAINER_OUTPUT_DIR: str = "trained_model"
-MODEL_TRAINER_MODEL_FILE: str = "model.pkl"
-MODEL_TRAINER_EXPECTED_SCORE: float = 0.75
-MODEL_TRAINER_OVERFIT_THRESHOLD: float = 0.05
+MODEL_TRAINED_DIR: str = "model_trainer"
+MODEL_TRAINED_OUTPUT_DIR: str = "trained_model"
+MODEL_ARTIFACT_FILE_NAME: str = "model_trainer_artifact.yaml"
+MODEL_TRAINED_EXPECTED_SCORE: float = 0.5
+MODEL_TRAINED_OVERFIT_THRESHOLD: float = 0.05
+# MODEL_TRAINER_MODEL_CONFIG_FILE_PATH: str = os.path.join("config", "model.yaml")
+MODEL_TRAINER_MODEL_CONFIG_FILE_PATH: str = "config/model.yaml"
 
 # =====================================================
 # 📌 Model Evaluation

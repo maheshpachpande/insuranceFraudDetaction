@@ -8,6 +8,8 @@ from pandas import DataFrame
 from box import ConfigBox
 from src.exception import CustomException
 from src.logger import logging
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
+from src.entity.artifact_entity import ClassificationMetricArtifact
 
 
 
@@ -18,7 +20,39 @@ def read_yaml_file(file_path: str) -> dict:
             return ConfigBox(yaml.safe_load(yaml_file))
 
     except Exception as e:
-        raise CustomException(e, sys) 
+        raise CustomException(e, sys.exc_info()[2]) 
+
+
+
+def evaluate_classification_metrics(y_true, y_pred) -> ClassificationMetricArtifact:
+    """
+    Calculates classification metrics and returns them in a ClassificationMetricArtifact object.
+
+    Args:
+        y_true (array-like): Ground truth (correct) labels.
+        y_pred (array-like): Predicted labels by the model.
+
+    Returns:
+        ClassificationMetricArtifact: Contains f1_score, precision_score, and recall_score.
+    """
+    accuracy = accuracy_score(y_true, y_pred)
+    f1 = f1_score(y_true, y_pred)
+    precision = precision_score(y_true, y_pred)
+    recall = recall_score(y_true, y_pred)
+
+    # Log metrics for debugging (optional)
+    print(f"Accuracy: {accuracy:.4f}")
+    print(f"F1 Score: {f1:.4f}")
+    print(f"Precision: {precision:.4f}")
+    print(f"Recall: {recall:.4f}")
+
+    return ClassificationMetricArtifact(
+        f1_score=f1,
+        precision_score=precision,
+        recall_score=recall
+    )
+
+
 
 
 def write_yaml_file(file_path: str, content: object, replace: bool = False) -> None:
@@ -30,21 +64,28 @@ def write_yaml_file(file_path: str, content: object, replace: bool = False) -> N
         with open(file_path, "w") as file:
             yaml.dump(content, file)
     except Exception as e:
-        raise CustomException(e, sys) 
+        raise CustomException(e, sys.exc_info()[2]) 
 
 
-def load_object(file_path: str) -> object:
+from typing import TypeVar, Type
+import dill
+import sys
+
+T = TypeVar("T")
+
+def load_object(file_path: str, expected_type: Type[T]) -> T:
     """
-    Returns model/object from project directory.
-    file_path: str location of file to load
-    return: Model/Obj
+    Load an object from file and ensure it matches the expected type.
     """
     try:
         with open(file_path, "rb") as file_obj:
             obj = dill.load(file_obj)
+        if not isinstance(obj, expected_type):
+            raise TypeError(f"Expected {expected_type}, got {type(obj)}")
         return obj
     except Exception as e:
-        raise CustomException(e, sys) 
+        raise CustomException(e, sys.exc_info()[2])
+
 
 def save_numpy_array_data(file_path: str, array: np.array):
     """
@@ -58,7 +99,7 @@ def save_numpy_array_data(file_path: str, array: np.array):
         with open(file_path, 'wb') as file_obj:
             np.save(file_obj, array)
     except Exception as e:
-        raise CustomException(e, sys) 
+        raise CustomException(e, sys.exc_info()[2]) 
 
 
 def load_numpy_array_data(file_path: str) -> np.array:
@@ -69,9 +110,9 @@ def load_numpy_array_data(file_path: str) -> np.array:
     """
     try:
         with open(file_path, 'rb') as file_obj:
-            return np.load(file_obj)
+            return np.load(file_obj, allow_pickle=True)
     except Exception as e:
-        raise CustomException(e, sys) 
+        raise CustomException(e, sys.exc_info()[2]) 
 
 
 def save_object(file_path: str, obj: object) -> None:
@@ -85,7 +126,7 @@ def save_object(file_path: str, obj: object) -> None:
         logging.info("Exited the save_object method of utils")
 
     except Exception as e:
-        raise CustomException(e, sys) 
+        raise CustomException(e, sys.exc_info()[2]) 
 
 
 # def drop_columns(df: DataFrame, cols: list)-> DataFrame:
@@ -104,4 +145,4 @@ def save_object(file_path: str, obj: object) -> None:
         
 #         return df
 #     except Exception as e:
-#         raise CustomException(e, sys) 
+#         raise CustomException(e, sys.exc_info()[2]) 
