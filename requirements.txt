@@ -27,5 +27,7 @@ fastapi
 pydantic
 mlflow
 dagshub
+dvc
+
 
 -e .
