@@ -1,0 +1,162 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/components/data_ingestion.py
+    deps:
+    - path: src/components/data_ingestion.py
+      hash: md5
+      md5: 8e5fe7063844941e318cb613ad45325a
+      size: 5426
+    - path: src/data_access/mongoDBToPandas.py
+      hash: md5
+      md5: 2c69cc691597e2d8c40e76be7b0d9c3e
+      size: 1717
+    - path: src/entity/artifact_entity.py
+      hash: md5
+      md5: dc643d9ab2aa1b3bbfab546976d62bba
+      size: 1033
+    - path: src/entity/config_entity.py
+      hash: md5
+      md5: d5d54425bbab930b47c35a6acec50a75
+      size: 3385
+    - path: src/utils/main_utils.py
+      hash: md5
+      md5: 6eddcc5e0b0c3b60ab7c5968ad688e32
+      size: 4224
+    outs:
+    - path: artifact/data_ingestion/feature_store/raw.csv
+      hash: md5
+      md5: 5fd8d06ea146276697bd2bec5a4a82e4
+      size: 263241
+    - path: artifact/data_ingestion/ingested/test.csv
+      hash: md5
+      md5: 2521721170a817932a72680dc447155f
+      size: 49515
+    - path: artifact/data_ingestion/ingested/train.csv
+      hash: md5
+      md5: fa62137de563948f1596a2dd3fce6b55
+      size: 148308
+  data_validation:
+    cmd: python src/components/data_validation.py
+    deps:
+    - path: artifact/data_ingestion/ingested/test.csv
+      hash: md5
+      md5: 2521721170a817932a72680dc447155f
+      size: 49515
+    - path: artifact/data_ingestion/ingested/train.csv
+      hash: md5
+      md5: fa62137de563948f1596a2dd3fce6b55
+      size: 148308
+    - path: src/components/data_validation.py
+      hash: md5
+      md5: 634c7c2c745bcdd03828a95aa1a73528
+      size: 10635
+    - path: src/entity/artifact_entity.py
+      hash: md5
+      md5: dc643d9ab2aa1b3bbfab546976d62bba
+      size: 1033
+    - path: src/entity/config_entity.py
+      hash: md5
+      md5: d5d54425bbab930b47c35a6acec50a75
+      size: 3385
+    - path: src/utils/main_utils.py
+      hash: md5
+      md5: 6eddcc5e0b0c3b60ab7c5968ad688e32
+      size: 4224
+    outs:
+    - path: 
+        artifact/data_validation/drift_report/probability_drift_target_column.yaml
+      hash: md5
+      md5: fb44bee96daa0bba3925dc49f9e14e3d
+      size: 202
+    - path: artifact/data_validation/validated/test.csv
+      hash: md5
+      md5: 2521721170a817932a72680dc447155f
+      size: 49515
+    - path: artifact/data_validation/validated/train.csv
+      hash: md5
+      md5: fa62137de563948f1596a2dd3fce6b55
+      size: 148308
+  data_transformation:
+    cmd: python src/components/data_transformation.py
+    deps:
+    - path: 
+        artifact/data_validation/drift_report/probability_drift_target_column.yaml
+      hash: md5
+      md5: fb44bee96daa0bba3925dc49f9e14e3d
+      size: 202
+    - path: artifact/data_validation/validated/test.csv
+      hash: md5
+      md5: 2521721170a817932a72680dc447155f
+      size: 49515
+    - path: artifact/data_validation/validated/train.csv
+      hash: md5
+      md5: fa62137de563948f1596a2dd3fce6b55
+      size: 148308
+    - path: src/components/data_transformation.py
+      hash: md5
+      md5: 62c8f8f1d189c4497bc2a89094ad0ba2
+      size: 5433
+    - path: src/entity/artifact_entity.py
+      hash: md5
+      md5: dc643d9ab2aa1b3bbfab546976d62bba
+      size: 1033
+    - path: src/entity/config_entity.py
+      hash: md5
+      md5: d5d54425bbab930b47c35a6acec50a75
+      size: 3385
+    - path: src/utils/main_utils.py
+      hash: md5
+      md5: 6eddcc5e0b0c3b60ab7c5968ad688e32
+      size: 4224
+    outs:
+    - path: 
+        artifact/data_transformation/transformed_binary_object/preprocessing.pkl
+      hash: md5
+      md5: 31c0f484b55128eb5fc6c389b9ed7395
+      size: 6630
+    - path: artifact/data_transformation/transformed_numpy_array/test.npy
+      hash: md5
+      md5: a27f01e9dc52bbe96019c10004d91446
+      size: 323936
+    - path: artifact/data_transformation/transformed_numpy_array/train.npy
+      hash: md5
+      md5: 77445206b66a58af5a4eddcee6e0eb8e
+      size: 1008403
+  model_trainer:
+    cmd: python src/components/model_trainer.py
+    deps:
+    - path: 
+        artifact/data_transformation/transformed_binary_object/preprocessing.pkl
+      hash: md5
+      md5: 31c0f484b55128eb5fc6c389b9ed7395
+      size: 6630
+    - path: artifact/data_transformation/transformed_numpy_array/test.npy
+      hash: md5
+      md5: a27f01e9dc52bbe96019c10004d91446
+      size: 323936
+    - path: artifact/data_transformation/transformed_numpy_array/train.npy
+      hash: md5
+      md5: 77445206b66a58af5a4eddcee6e0eb8e
+      size: 1008403
+    - path: src/components/model_trainer.py
+      hash: md5
+      md5: 31d6c71c6a20470455437273dafcbf7d
+      size: 5091
+    - path: src/entity/artifact_entity.py
+      hash: md5
+      md5: dc643d9ab2aa1b3bbfab546976d62bba
+      size: 1033
+    - path: src/entity/config_entity.py
+      hash: md5
+      md5: d5d54425bbab930b47c35a6acec50a75
+      size: 3385
+    - path: src/utils/main_utils.py
+      hash: md5
+      md5: 6eddcc5e0b0c3b60ab7c5968ad688e32
+      size: 4224
+    outs:
+    - path: artifact/model_trainer/trained_model/model.pkl
+      hash: md5
+      md5: 2130cbd5da388d7e5fc80f68d3bfa5d0
+      size: 462237
