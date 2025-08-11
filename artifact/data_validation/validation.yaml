@@ -1,4 +1,0 @@
-drift_report_file_path: artifact/data_validation/drift_report/dataset_drift.yaml
-valid_test_file_path: artifact/data_validation/validated/test.csv
-valid_train_file_path: artifact/data_validation/validated/train.csv
-validation_status: true
