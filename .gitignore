@@ -209,3 +209,6 @@ __marimo__/
 artifact/data_ingestion/feature_store/raw.csv
 artifact/data_ingestion/ingested/train.csv
 artifact/data_ingestion/ingested/test.csv
+
+artifact/data_transformation/transformed_binary_object/preprocessing.pkl
+artifact/model_trainer/trained_model/model.pkl

@@ -1,0 +1,57 @@
+
+from src.logger import logging
+import sys
+from src.pipeline.stage_01_data_ingestion import DataIngestionTrainingPipeline
+from src.pipeline.stage_02_data_validation import DataValidationTrainingPipeline
+from src.pipeline.stage_03_data_transformation import DataTransformationTrainingPipeline
+from src.pipeline.stage_04_model_trainer import ModelTrainingPipeline
+import matplotlib
+matplotlib.use('Agg')  # Use non-GUI backend to avoid tkinter errors
+
+
+
+
+STAGE_NAME = "Data Ingestion stage"
+
+
+try:
+    logging.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+    obj = DataIngestionTrainingPipeline()
+    obj.main()
+    logging.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+except Exception as e:
+    logging.exception(e)
+    raise e
+
+
+STAGE_NAME = "Data Validation stage"
+
+try:
+    logging.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+    obj = DataValidationTrainingPipeline()
+    obj.main()
+    logging.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+except Exception as e:
+    sys.exit(str(e))
+    
+    
+STAGE_NAME = "Data Transformation stage"
+
+try:
+    logging.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+    obj = DataTransformationTrainingPipeline()
+    obj.main()
+    logging.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+except Exception as e:
+    sys.exit(str(e))
+    
+    
+STAGE_NAME = "Model Trainer stage"
+
+try:
+    logging.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+    obj = ModelTrainingPipeline()
+    obj.main()
+    logging.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+except Exception as e:
+    sys.exit(str(e))
