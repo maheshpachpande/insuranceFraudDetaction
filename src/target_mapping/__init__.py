@@ -62,7 +62,8 @@ class InsuranceModel:
             return self.trained_model_object.predict(transformed_features)
 
         except Exception as e:
-            raise CustomException(e, sys) 
+            import traceback
+            return {"status": False, "error": traceback.format_exc()}
 
     def __repr__(self):
         return f"{type(self.trained_model_object).__name__}()"

@@ -1,297 +1,116 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Insurance Fraud — Prediction</title>
-  <style>
-    :root{
-      --bg:#0f172a; --card:#0b1220; --accent:#06b6d4; --muted:#94a3b8; --white:#e6eef6;
-    }
-    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto; background:linear-gradient(180deg,#071031 0%, #0b1220 100%); color:var(--white); margin:0; padding:40px;}
-    .container{max-width:980px;margin:0 auto;}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:22px; border-radius:12px; box-shadow: 0 6px 20px rgba(2,6,23,0.7);}
-    h1{margin:0 0 14px 0; font-size:20px;}
-    .grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px;}
-    label{display:block; font-size:13px; color:var(--muted); margin-bottom:6px;}
-    input[type="text"], input[type="number"], select{width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:var(--white); outline:none;}
-    .row-full{grid-column:1/-1;}
-    .actions{display:flex; gap:12px; margin-top:14px; align-items:center;}
-    button{background:var(--accent); color:#042027; border:none; padding:10px 14px; border-radius:9px; font-weight:600; cursor:pointer;}
-    button.secondary{background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.04);}
-    pre{background:#021224;padding:12px;border-radius:8px; color:var(--white); font-size:13px; overflow:auto;}
-    .hint{font-size:13px; color:var(--muted); margin-top:8px;}
-    @media (max-width:760px){ .grid{grid-template-columns:1fr;} }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <title>Insurance Data Form</title>
 </head>
 <body>
-  <div class="container">
-    <div class="card">
-      <h1>Insurance Fraud — Prediction</h1>
-      <p class="hint">Fill the form and click <strong>Predict</strong>. The page will send a JSON `POST` to <code>/predict</code>.</p>
+  <h1>Insurance Data Form</h1>
 
-      <form id="predict-form">
-        <div class="grid">
-          <div>
-            <label for="months_as_customer">months_as_customer (int)</label>
-            <input id="months_as_customer" name="months_as_customer" type="number" step="1" value="12" />
-          </div>
-
-          <div>
-            <label for="age">age (int)</label>
-            <input id="age" name="age" type="number" step="1" value="45" />
-          </div>
-
-          <div>
-            <label for="policy_state">policy_state (string)</label>
-            <input id="policy_state" name="policy_state" type="text" value="OH" />
-          </div>
-
-          <div>
-            <label for="policy_csl">policy_csl (string)</label>
-            <input id="policy_csl" name="policy_csl" type="text" value="250/500" />
-          </div>
-
-          <div>
-            <label for="policy_deductable">policy_deductable (int)</label>
-            <input id="policy_deductable" name="policy_deductable" type="number" step="1" value="500" />
-          </div>
-
-          <div>
-            <label for="policy_annual_premium">policy_annual_premium (float)</label>
-            <input id="policy_annual_premium" name="policy_annual_premium" type="number" step="0.01" value="1200.50" />
-          </div>
-
-          <div>
-            <label for="umbrella_limit">umbrella_limit (int)</label>
-            <input id="umbrella_limit" name="umbrella_limit" type="number" step="1" value="0" />
-          </div>
-
-          <div>
-            <label for="insured_sex">insured_sex (string)</label>
-            <input id="insured_sex" name="insured_sex" type="text" value="MALE" />
-          </div>
-
-          <div>
-            <label for="insured_education_level">insured_education_level (string)</label>
-            <input id="insured_education_level" name="insured_education_level" type="text" value="Bachelors" />
-          </div>
-
-          <div>
-            <label for="insured_occupation">insured_occupation (string)</label>
-            <input id="insured_occupation" name="insured_occupation" type="text" value="manager" />
-          </div>
-
-          <div>
-            <label for="insured_hobbies">insured_hobbies (string)</label>
-            <input id="insured_hobbies" name="insured_hobbies" type="text" value="reading" />
-          </div>
-
-          <div>
-            <label for="insured_relationship">insured_relationship (string)</label>
-            <input id="insured_relationship" name="insured_relationship" type="text" value="own-child" />
-          </div>
-
-          <div>
-            <label for="capital_gains">capital-gains (int)</label>
-            <input id="capital_gains" name="capital-gains" type="number" step="1" value="0" />
-          </div>
-
-          <div>
-            <label for="capital_loss">capital-loss (int)</label>
-            <input id="capital_loss" name="capital-loss" type="number" step="1" value="0" />
-          </div>
-
-          <div>
-            <label for="incident_type">incident_type (string)</label>
-            <input id="incident_type" name="incident_type" type="text" value="Collision" />
-          </div>
-
-          <div>
-            <label for="collision_type">collision_type (string)</label>
-            <input id="collision_type" name="collision_type" type="text" value="Rear Collision" />
-          </div>
-
-          <div>
-            <label for="incident_severity">incident_severity (string)</label>
-            <input id="incident_severity" name="incident_severity" type="text" value="Major Damage" />
-          </div>
-
-          <div>
-            <label for="authorities_contacted">authorities_contacted (string)</label>
-            <input id="authorities_contacted" name="authorities_contacted" type="text" value="Police" />
-          </div>
-
-          <div>
-            <label for="incident_state">incident_state (string)</label>
-            <input id="incident_state" name="incident_state" type="text" value="OH" />
-          </div>
-
-          <div>
-            <label for="incident_hour_of_the_day">incident_hour_of_the_day (int)</label>
-            <input id="incident_hour_of_the_day" name="incident_hour_of_the_day" type="number" step="1" value="14" />
-          </div>
-
-          <div>
-            <label for="number_of_vehicles_involved">number_of_vehicles_involved (int)</label>
-            <input id="number_of_vehicles_involved" name="number_of_vehicles_involved" type="number" step="1" value="2" />
-          </div>
-
-          <div>
-            <label for="property_damage">property_damage (string)</label>
-            <input id="property_damage" name="property_damage" type="text" value="YES" />
-          </div>
-
-          <div>
-            <label for="bodily_injuries">bodily_injuries (int)</label>
-            <input id="bodily_injuries" name="bodily_injuries" type="number" step="1" value="1" />
-          </div>
-
-          <div>
-            <label for="witnesses">witnesses (int)</label>
-            <input id="witnesses" name="witnesses" type="number" step="1" value="0" />
-          </div>
-
-          <div>
-            <label for="police_report_available">police_report_available (string)</label>
-            <input id="police_report_available" name="police_report_available" type="text" value="NO" />
-          </div>
-
-          <div>
-            <label for="total_claim_amount">total_claim_amount (int)</label>
-            <input id="total_claim_amount" name="total_claim_amount" type="number" step="1" value="5000" />
-          </div>
-
-          <div>
-            <label for="injury_claim">injury_claim (int)</label>
-            <input id="injury_claim" name="injury_claim" type="number" step="1" value="1000" />
-          </div>
-
-          <div>
-            <label for="property_claim">property_claim (int)</label>
-            <input id="property_claim" name="property_claim" type="number" step="1" value="2000" />
-          </div>
-
-          <div>
-            <label for="vehicle_claim">vehicle_claim (int)</label>
-            <input id="vehicle_claim" name="vehicle_claim" type="number" step="1" value="2000" />
-          </div>
-
-          <div>
-            <label for="auto_make">auto_make (string)</label>
-            <input id="auto_make" name="auto_make" type="text" value="Toyota" />
-          </div>
-
-          <div>
-            <label for="auto_year">auto_year (int)</label>
-            <input id="auto_year" name="auto_year" type="number" step="1" value="2015" />
-          </div>
-
-          <div class="row-full">
-            <div class="actions">
-              <button type="submit">Predict</button>
-              <button type="button" class="secondary" id="clear">Clear</button>
-              <div style="flex:1"></div>
-            </div>
-          </div>
-
-          <div class="row-full">
-            <label>Request JSON</label>
-            <pre id="req-json">{}</pre>
-          </div>
-
-          <div class="row-full">
-            <label>Response</label>
-            <pre id="resp-json">No response yet.</pre>
-          </div>
-        </div>
-      </form>
-
-      <p class="hint">Tip: change the `predictUrl` variable in the script below to point to your API endpoint (example: <code>http://localhost:8000/predict</code>).</p>
-    </div>
+  <!-- Prediction Status -->
+  <div class="text-center text-black">
+      <h2 class="display-4 fw-bolder">Visa Prediction Status: {{context}} </h2>
   </div>
 
-  <script>
-    const form = document.getElementById('predict-form');
-    const reqJson = document.getElementById('req-json');
-    const respJson = document.getElementById('resp-json');
-    const clearBtn = document.getElementById('clear');
+  <form method="post" action="/submit_insurance_data">
+    <label for="months_as_customer">Months as Customer:</label>
+    <input type="number" id="months_as_customer" name="months_as_customer" required /><br />
 
-    // endpoint - change to your backend URL
-    const predictUrl = '/predict';
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" required /><br />
 
-    // helper to read and coerce values
-    function getValue(name) {
-      const el = document.getElementsByName(name)[0];
-      if (!el) return null;
-      const val = el.value;
-      // fields that should be ints
-      const ints = new Set([
-        'months_as_customer','age','policy_deductable','umbrella_limit',
-        'incident_hour_of_the_day','number_of_vehicles_involved','bodily_injuries',
-        'witnesses','total_claim_amount','injury_claim','property_claim','vehicle_claim','auto_year'
-      ]);
-      const floats = new Set(['policy_annual_premium']);
-      if (ints.has(name)) return val === '' ? null : parseInt(val, 10);
-      if (floats.has(name)) return val === '' ? null : parseFloat(val);
-      // keep strings as-is (including keys with hyphen)
-      return val;
-    }
+    <label for="policy_state">Policy State:</label>
+    <input type="text" id="policy_state" name="policy_state" required /><br />
 
-    function buildPayload() {
-      const keys = [
-        "months_as_customer","age","policy_state","policy_csl","policy_deductable","policy_annual_premium",
-        "umbrella_limit","insured_sex","insured_education_level","insured_occupation","insured_hobbies",
-        "insured_relationship","capital-gains","capital-loss","incident_type","collision_type",
-        "incident_severity","authorities_contacted","incident_state","incident_hour_of_the_day",
-        "number_of_vehicles_involved","property_damage","bodily_injuries","witnesses","police_report_available",
-        "total_claim_amount","injury_claim","property_claim","vehicle_claim","auto_make","auto_year"
-      ];
+    <label for="policy_csl">Policy CSL:</label>
+    <input type="text" id="policy_csl" name="policy_csl" required /><br />
 
-      const payload = {};
-      for (const k of keys) {
-        // HTML input name can't have the same variable name with hyphen so we normalize:
-        // If key contains hyphen, HTML input name used underscores in id; try both.
-        const htmlName = k.includes('-') ? k.replace('-', '_') : k;
-        const val = getValue(htmlName) ?? getValue(k);
-        payload[k] = val;
-      }
-      return payload;
-    }
+    <label for="policy_deductable">Policy Deductable:</label>
+    <input type="number" id="policy_deductable" name="policy_deductable" required /><br />
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const payload = buildPayload();
-      // The backend in your project expects a DataFrame-like structure:
-      // either a dict of lists (one-row) or {records: [...]}. We send dict-of-lists.
-      const requestBody = {};
-      for (const [k,v] of Object.entries(payload)) requestBody[k] = [v];
+    <label for="policy_annual_premium">Policy Annual Premium:</label>
+    <input type="number" step="0.01" id="policy_annual_premium" name="policy_annual_premium" required /><br />
 
-      reqJson.textContent = JSON.stringify(requestBody, null, 2);
-      respJson.textContent = 'Waiting for response...';
+    <label for="umbrella_limit">Umbrella Limit:</label>
+    <input type="number" id="umbrella_limit" name="umbrella_limit" required /><br />
 
-      try {
-        const res = await fetch(predictUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestBody)
-        });
+    <label for="insured_sex">Insured Sex:</label>
+    <input type="text" id="insured_sex" name="insured_sex" required /><br />
 
-        const data = await res.json();
-        respJson.textContent = JSON.stringify(data, null, 2);
-      } catch (err) {
-        respJson.textContent = 'Error: ' + err.message;
-      }
-    });
+    <label for="insured_education_level">Insured Education Level:</label>
+    <input type="text" id="insured_education_level" name="insured_education_level" required /><br />
 
-    clearBtn.addEventListener('click', () => {
-      form.reset();
-      reqJson.textContent = '{}';
-      respJson.textContent = 'No response yet.';
-    });
+    <label for="insured_occupation">Insured Occupation:</label>
+    <input type="text" id="insured_occupation" name="insured_occupation" required /><br />
 
-    // On load: tweak HTML input names for hyphen keys so the script works:
-    // map capital-gains -> capital_gains input id already exists, so no change required.
-  </script>
+    <label for="insured_hobbies">Insured Hobbies:</label>
+    <input type="text" id="insured_hobbies" name="insured_hobbies" required /><br />
+
+    <label for="insured_relationship">Insured Relationship:</label>
+    <input type="text" id="insured_relationship" name="insured_relationship" required /><br />
+
+    <label for="capital_gains">Capital Gains:</label>
+    <input type="number" id="capital_gains" name="capital_gains" required /><br />
+
+    <label for="capital_loss">Capital Loss:</label>
+    <input type="number" id="capital_loss" name="capital_loss" required /><br />
+
+    <label for="incident_type">Incident Type:</label>
+    <input type="text" id="incident_type" name="incident_type" required /><br />
+
+    <label for="collision_type">Collision Type:</label>
+    <input type="text" id="collision_type" name="collision_type" required /><br />
+
+    <label for="incident_severity">Incident Severity:</label>
+    <input type="text" id="incident_severity" name="incident_severity" required /><br />
+
+    <label for="authorities_contacted">Authorities Contacted:</label>
+    <input type="text" id="authorities_contacted" name="authorities_contacted" required /><br />
+
+    <label for="incident_state">Incident State:</label>
+    <input type="text" id="incident_state" name="incident_state" required /><br />
+
+    <label for="incident_hour_of_the_day">Incident Hour of the Day:</label>
+    <input type="number" id="incident_hour_of_the_day" name="incident_hour_of_the_day" min="0" max="23" required /><br />
+
+    <label for="number_of_vehicles_involved">Number of Vehicles Involved:</label>
+    <input type="number" id="number_of_vehicles_involved" name="number_of_vehicles_involved" required /><br />
+
+    <label for="property_damage">Property Damage:</label>
+    <input type="text" id="property_damage" name="property_damage" required /><br />
+
+    <label for="bodily_injuries">Bodily Injuries:</label>
+    <input type="number" id="bodily_injuries" name="bodily_injuries" required /><br />
+
+    <label for="witnesses">Witnesses:</label>
+    <input type="number" id="witnesses" name="witnesses" required /><br />
+
+    <label for="police_report_available">Police Report Available:</label>
+    <input type="text" id="police_report_available" name="police_report_available" required /><br />
+
+    <label for="total_claim_amount">Total Claim Amount:</label>
+    <input type="number" id="total_claim_amount" name="total_claim_amount" required /><br />
+
+    <label for="injury_claim">Injury Claim:</label>
+    <input type="number" id="injury_claim" name="injury_claim" required /><br />
+
+    <label for="property_claim">Property Claim:</label>
+    <input type="number" id="property_claim" name="property_claim" required /><br />
+
+    <label for="vehicle_claim">Vehicle Claim:</label>
+    <input type="number" id="vehicle_claim" name="vehicle_claim" required /><br />
+
+    <label for="auto_make">Auto Make:</label>
+    <input type="text" id="auto_make" name="auto_make" required /><br />
+
+    <label for="auto_year">Auto Year:</label>
+    <input type="number" id="auto_year" name="auto_year" required /><br />
+
+    <button type="submit">Submit</button>
+  </form>
 </body>
 </html>

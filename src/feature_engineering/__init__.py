@@ -197,7 +197,7 @@ class DataTransformer:
 
             onehot_transformer = Pipeline(steps=[
                 ('imputer', SimpleImputer(strategy='most_frequent')),
-                ('encoder', OneHotEncoder(sparse_output=False, drop="first"))
+                ('encoder', OneHotEncoder(sparse_output=False, drop="first", handle_unknown='ignore'))
             ])
 
             ordinal_transformer = Pipeline(steps=[
