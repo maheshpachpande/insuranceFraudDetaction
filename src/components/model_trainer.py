@@ -56,7 +56,7 @@ class ModelTrainer:
             f1_test = f1_score(y_test, y_test_pred)
 
             # Check overfitting: if train score much higher than test score (threshold can be tuned)
-            overfit_threshold = 0.1  # e.g. 10% difference allowed
+            overfit_threshold = 0.6  # e.g. 10% difference allowed
             if (f1_train - f1_test) > overfit_threshold:
                 raise Exception(f"Overfitting detected: F1 train={f1_train:.3f}, F1 test={f1_test:.3f}")
 

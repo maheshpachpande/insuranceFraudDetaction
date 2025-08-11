@@ -16,94 +16,94 @@ age:
     - 0
   - !!binary |
     AA==
-  p_value: 0.7717794020650939
+  p_value: 0.0810769093942215
 authorities_contacted:
   drift_status: *id001
-  p_value: 0.3196620660484703
+  p_value: 0.9998725762253738
 auto_make:
   drift_status: *id001
   p_value: 0.8774908902153534
 auto_year:
   drift_status: *id001
-  p_value: 0.9832945306522366
+  p_value: 0.6815934044551095
 bodily_injuries:
   drift_status: *id001
   p_value: 1.0
 capital-gains:
   drift_status: *id001
-  p_value: 0.2789169444899299
+  p_value: 0.19124625288745956
 capital-loss:
   drift_status: *id001
-  p_value: 0.919512443836103
+  p_value: 0.9752472530154285
 collision_type:
   drift_status: *id001
-  p_value: 0.9522480191990562
+  p_value: 0.9999999997714684
 incident_hour_of_the_day:
   drift_status: *id001
-  p_value: 0.8534124195825724
+  p_value: 0.9370961327604651
 incident_severity:
   drift_status: *id001
-  p_value: 0.36745220110722016
+  p_value: 0.9752472530154285
 incident_state:
   drift_status: *id001
-  p_value: 0.9649456240184902
+  p_value: 0.6815934044551095
 incident_type:
   drift_status: *id001
-  p_value: 0.19124625288745956
+  p_value: 0.6200208789083654
 injury_claim:
   drift_status: *id001
-  p_value: 0.2593787621506959
+  p_value: 0.20682023933636834
 insured_education_level:
   drift_status: *id001
-  p_value: 0.09730813317905912
+  p_value: 0.1266555556634004
 insured_hobbies:
   drift_status: *id001
-  p_value: 0.7121750674193509
+  p_value: 0.5894299074609936
 insured_occupation:
   drift_status: *id001
-  p_value: 0.919512443836103
+  p_value: 0.5591996234401292
 insured_relationship:
   drift_status: *id001
-  p_value: 0.9964099564679965
+  p_value: 0.5294757647328986
 insured_sex:
   drift_status: *id001
-  p_value: 1.0
+  p_value: 0.8002935491431424
 months_as_customer:
   drift_status: *id001
-  p_value: 0.4720268102303099
+  p_value: 0.36745220110722016
 number_of_vehicles_involved:
   drift_status: *id001
-  p_value: 0.11615930467283682
+  p_value: 0.8534124195825724
 police_report_available:
   drift_status: *id001
-  p_value: 0.29949005317044475
+  p_value: 0.22335047169495956
 policy_annual_premium:
   drift_status: *id001
-  p_value: 0.36745220110722016
+  p_value: 0.6815934044551095
 policy_csl:
   drift_status: *id001
-  p_value: 0.9981654157284734
+  p_value: 0.32110503288230974
 policy_deductable:
   drift_status: *id001
-  p_value: 0.9999988382921076
+  p_value: 1.0
 policy_state:
   drift_status: *id001
-  p_value: 0.5894299074609936
+  p_value: 0.9964099564679965
 property_claim:
   drift_status: *id001
-  p_value: 0.39215854922720245
+  p_value: 0.7423196340185914
 property_damage:
   drift_status: *id001
-  p_value: 0.36745220110722016
+  p_value: 0.8275938817806103
 total_claim_amount:
   drift_status: *id001
-  p_value: 0.0810769093942215
+  p_value: 0.36745220110722016
 umbrella_limit:
   drift_status: *id001
-  p_value: 0.9752472530154285
+  p_value: 0.9998831357530187
 vehicle_claim:
   drift_status: *id001
-  p_value: 0.06718961688131268
+  p_value: 0.5294757647328986
 witnesses:
   drift_status: *id001
-  p_value: 0.9981654157284734
+  p_value: 0.5591996234401292

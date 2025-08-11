@@ -1,14 +1,11 @@
 columns:
   months_as_customer: int
   age: int
-  # policy_number: int
-  # policy_bind_date: object
   policy_state: object
   policy_csl: object
   policy_deductable: int
   policy_annual_premium: float
   umbrella_limit: int
-  # insured_zip: int
   insured_sex: object
   insured_education_level: object
   insured_occupation: object
@@ -16,14 +13,11 @@ columns:
   insured_relationship: object
   capital-gains: int
   capital-loss: int
-  # incident_date: object
   incident_type: object
   collision_type: object
   incident_severity: object
   authorities_contacted: object
   incident_state: object
-  # incident_city: object
-  # incident_location: object
   incident_hour_of_the_day: int
   number_of_vehicles_involved: int
   property_damage: object
@@ -35,7 +29,6 @@ columns:
   property_claim: int
   vehicle_claim: int
   auto_make: object
-  # auto_model: object
   auto_year: int
   fraud_reported: object
 
@@ -54,11 +47,9 @@ drop_columns:
 numerical_columns:
   - months_as_customer
   - age
-  # - policy_number
   - policy_deductable
   - policy_annual_premium
   - umbrella_limit
-  # - insured_zip
   - capital-gains
   - capital-loss
   - incident_hour_of_the_day
@@ -72,7 +63,6 @@ numerical_columns:
   - auto_year
 
 categorical_columns:
-  # - policy_bind_date
   - policy_state
   - policy_csl
   - insured_sex
@@ -80,16 +70,12 @@ categorical_columns:
   - insured_occupation
   - insured_hobbies
   - insured_relationship
-  # - incident_date
   - incident_type
   - collision_type
   - incident_severity
   - authorities_contacted
   - incident_state
-  # - incident_city
-  # - incident_location
   - property_damage
   - police_report_available
   - auto_make
-  # - auto_model
   - fraud_reported

@@ -18,7 +18,12 @@ catboost>=1.1
 fastapi>=0.95.2
 uvicorn>=0.22.0
 python-box>=5.4.1
-scipy==1.11.1
+scipy
 lightgbm
+boto3
+mypy-boto3-s3
+botocore
+fastapi
+pydantic
 
 -e .

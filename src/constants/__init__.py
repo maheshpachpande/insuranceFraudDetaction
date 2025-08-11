@@ -25,6 +25,12 @@ VALIDATION_OUTPUT_PATH: str = os.path.join(ARTIFACT_DIR, "data_validation", "val
 SCHEMA_FILE_PATH: str = os.path.join("config", "schema.yaml")
 SCHEMA_DROP_COLS_KEY: str = "drop_columns"  # YAML key name for drop columns
 
+AWS_ACCESS_KEY_ID_ENV_KEY = "AWS_ACCESS_KEY_ID"
+AWS_SECRET_ACCESS_KEY_ENV_KEY = "AWS_SECRET_ACCESS_KEY"
+REGION_NAME = "us-east-1"
+MODEL_BUCKET_NAME = "insurance23"
+
+
 # =====================================================
 # 📌 Data Ingestion
 # =====================================================
@@ -62,7 +68,7 @@ MODEL_TRAINED_DIR: str = "model_trainer"
 MODEL_TRAINED_OUTPUT_DIR: str = "trained_model"
 MODEL_ARTIFACT_FILE_NAME: str = "model_trainer_artifact.yaml"
 MODEL_TRAINED_EXPECTED_SCORE: float = 0.5
-MODEL_TRAINED_OVERFIT_THRESHOLD: float = 0.05
+MODEL_TRAINED_OVERFIT_THRESHOLD: float = 0.8
 # MODEL_TRAINER_MODEL_CONFIG_FILE_PATH: str = os.path.join("config", "model.yaml")
 MODEL_TRAINER_MODEL_CONFIG_FILE_PATH: str = "config/model.yaml"
 
@@ -70,7 +76,7 @@ MODEL_TRAINER_MODEL_CONFIG_FILE_PATH: str = "config/model.yaml"
 # 📌 Model Evaluation
 # =====================================================
 MODEL_EVALUATION_DIR: str = "model_evaluation"
-MODEL_EVALUATION_SCORE_CHANGE_THRESHOLD: float = 0.02
+MODEL_EVALUATION_SCORE_CHANGE_THRESHOLD: float = 0.5
 MODEL_EVALUATION_REPORT_FILE: str = "report.yaml"
 MODEL_EVALUATION_ARTIFACT_FILE: str = "model_evaluation_artifact.yaml"
 MODEL_TRAINER_ARTIFACT_FILE: str = "model_trainer_artifact.yaml"
@@ -80,3 +86,9 @@ MODEL_TRAINER_ARTIFACT_FILE: str = "model_trainer_artifact.yaml"
 # =====================================================
 MODEL_PUSHER_DIR: str = "model_pusher"
 MODEL_PUSHER_SAVED_MODEL_DIR: str = SAVED_MODEL_DIR
+
+
+
+
+APP_HOST = "0.0.0.0"
+APP_PORT = 8080

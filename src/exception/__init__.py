@@ -50,22 +50,40 @@
 
 
 
+# import sys
+
+# def error_message_detail(error: Exception, error_detail: object) -> str: 
+#     """
+#     Returns error message with filename and line number
+#     """
+#     tb = error_detail  # This should already be the traceback object
+#     file_name = tb.tb_frame.f_code.co_filename
+#     line_number = tb.tb_lineno
+#     return f"Error in file {file_name}, line {line_number}: {str(error)}"
+
+
+# class CustomException(Exception):
+#     def __init__(self, error_message: Exception, error_detail: object):
+#         super().__init__(error_message)
+#         self.error_message = error_message_detail(error_message, error_detail)
+
+#     def __str__(self):
+#         return self.error_message
+
+# /home/mahesh/Desktop/insuranceFraudDetaction/src/exception/__init__.py
 import sys
 
-def error_message_detail(error: Exception, error_detail: object) -> str:
-    """
-    Returns error message with filename and line number
-    """
-    tb = error_detail  # This should already be the traceback object
+def error_message_detail(error, error_detail):
+    tb = error_detail  # traceback object
     file_name = tb.tb_frame.f_code.co_filename
     line_number = tb.tb_lineno
     return f"Error in file {file_name}, line {line_number}: {str(error)}"
 
-
 class CustomException(Exception):
-    def __init__(self, error_message: Exception, error_detail: object):
+    def __init__(self, error_message, error_detail):
         super().__init__(error_message)
         self.error_message = error_message_detail(error_message, error_detail)
 
     def __str__(self):
         return self.error_message
+
