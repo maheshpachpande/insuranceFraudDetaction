@@ -65,6 +65,7 @@ class ModelEvaluationConfig:
     changed_threshold_score: float = MODEL_EVALUATION_SCORE_CHANGE_THRESHOLD
     bucket_name: str = MODEL_BUCKET_NAME
     s3_model_key_path: str = MODEL_FILE_NAME
+    artifact_file_path: str = os.path.join(ARTIFACT_DIR, MODEL_EVALUATION_DIR, MODEL_EVALUATION_ARTIFACT_FILE)
 
 
 

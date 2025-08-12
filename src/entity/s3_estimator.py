@@ -3,6 +3,8 @@ from src.exception import CustomException
 from src.target_mapping import InsuranceModel
 import sys
 from pandas import DataFrame
+from dotenv import load_dotenv
+load_dotenv()
 
 
 class S3_InsuranceEstimator:

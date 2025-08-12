@@ -1,1 +1,5 @@
 # insuranceFraudDetaction
+
+
+
+docker build -t 

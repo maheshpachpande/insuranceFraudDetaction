@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-
+import os
 from uvicorn import run as app_run
 
 from src.constants import APP_HOST, APP_PORT
@@ -107,9 +107,12 @@ async def index(request: Request):
 @app.get("/train")
 async def train_route():
     try:
-        train_pipeline = TrainPipeline()
-        train_pipeline.run_pipeline()
-        return Response("Training successful !!")
+        # train_pipeline = TrainPipeline()
+        # train_pipeline.run_pipeline()
+        # return Response("Training successful !!")
+        # os.system("python main.py")
+        os.system("dvc repro")
+        return "Training done successfully!"
     except Exception as e:
         import traceback
         return {"status": False, "error": traceback.format_exc()}
@@ -177,218 +180,3 @@ async def submit_insurance_data(request: Request):
 if __name__ == "__main__":
     app_run(app, host=APP_HOST, port=APP_PORT)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# from fastapi import FastAPI, Request
-# from pydantic import BaseModel
-# from typing import Any, Optional
-
-# from fastapi import FastAPI, Request
-# from fastapi.middleware.cors import CORSMiddleware
-# from fastapi.responses import Response
-# from fastapi.staticfiles import StaticFiles
-# from fastapi.templating import Jinja2Templates
-
-# from uvicorn import run as app_run
-
-# from src.constants import APP_HOST, APP_PORT
-# from src.pipeline.training_pipeline import TrainPipeline
-# from src.pipeline.prediction_pipeline import InsuranceData, InsuranceClassifier  # Change path to actual module
-
-# from src.entity.s3_estimator import S3_InsuranceEstimator
-
-# from fastapi import APIRouter
-
-
-# # Create FastAPI instance
-# app = FastAPI()
-# app.mount("/static", StaticFiles(directory="static"), name="static")
-
-# templates = Jinja2Templates(directory='templates')
-
-# origins = ["*"]
-
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-
-
-
-# class DataForm:
-#     def __init__(self, request: Request):
-#         self.request: Request = request
-#         self.months_as_customer: Optional[int] = None
-#         self.age: Optional[int] = None
-#         self.policy_state: Optional[str] = None
-#         self.policy_csl: Optional[str] = None
-#         self.policy_deductable: Optional[int] = None
-#         self.policy_annual_premium: Optional[float] = None
-#         self.umbrella_limit: Optional[int] = None
-#         self.insured_sex: Optional[str] = None
-#         self.insured_education_level: Optional[str] = None
-#         self.insured_occupation: Optional[str] = None
-#         self.insured_hobbies: Optional[str] = None
-#         self.insured_relationship: Optional[str] = None
-#         self.capital_gains: Optional[int] = None
-#         self.capital_loss: Optional[int] = None
-#         self.incident_type: Optional[str] = None
-#         self.collision_type: Optional[str] = None
-#         self.incident_severity: Optional[str] = None
-#         self.authorities_contacted: Optional[str] = None
-#         self.incident_state: Optional[str] = None
-#         self.incident_hour_of_the_day: Optional[int] = None
-#         self.number_of_vehicles_involved: Optional[int] = None
-#         self.property_damage: Optional[str] = None
-#         self.bodily_injuries: Optional[int] = None
-#         self.witnesses: Optional[int] = None
-#         self.police_report_available: Optional[str] = None
-#         self.total_claim_amount: Optional[int] = None
-#         self.injury_claim: Optional[int] = None
-#         self.property_claim: Optional[int] = None
-#         self.vehicle_claim: Optional[int] = None
-#         self.auto_make: Optional[str] = None
-#         self.auto_year: Optional[int] = None
-        
-        
-#     async def get_insurance_data(self):
-#         form = await self.request.form()
-#         self.months_as_customer = int(form.get("months_as_customer"))
-#         self.age = int(form.get("age"))
-#         self.policy_state = form.get("policy_state")
-#         self.policy_csl = form.get("policy_csl")
-#         self.policy_deductable = int(form.get("policy_deductable"))
-#         self.policy_annual_premium = float(form.get("policy_annual_premium"))
-#         self.umbrella_limit = int(form.get("umbrella_limit"))
-#         self.insured_sex = form.get("insured_sex")
-#         self.insured_education_level = form.get("insured_education_level")
-#         self.insured_occupation = form.get("insured_occupation")
-#         self.insured_hobbies = form.get("insured_hobbies")
-#         self.insured_relationship = form.get("insured_relationship")
-#         self.capital_gains = int(form.get("capital_gains"))
-#         self.capital_loss = int(form.get("capital_loss"))
-#         self.incident_type = form.get("incident_type")
-#         self.collision_type = form.get("collision_type")
-#         self.incident_severity = form.get("incident_severity")
-#         self.authorities_contacted = form.get("authorities_contacted")
-#         self.incident_state = form.get("incident_state")
-#         self.incident_hour_of_the_day = int(form.get("incident_hour_of_the_day"))
-#         self.number_of_vehicles_involved = int(form.get("number_of_vehicles_involved"))
-#         self.property_damage = form.get("property_damage")
-#         self.bodily_injuries = int(form.get("bodily_injuries"))
-#         self.witnesses = int(form.get("witnesses"))
-#         self.police_report_available = form.get("police_report_available")
-#         self.total_claim_amount = int(form.get("total_claim_amount"))
-#         self.injury_claim = int(form.get("injury_claim"))
-#         self.property_claim = int(form.get("property_claim"))
-#         self.vehicle_claim = int(form.get("vehicle_claim"))
-#         self.auto_make = form.get("auto_make")
-#         self.auto_year = int(form.get("auto_year"))
-
-
-
-# @app.get("/", tags=["authentication"])
-# async def index(request: Request):
-
-#     return templates.TemplateResponse(
-#             "insurance.html",{"request": request, "context": "Rendering"})
-    
-    
-# @app.get("/train")
-# async def trainRouteClient():
-#     try:
-#         train_pipeline = TrainPipeline()
-
-#         train_pipeline.run_pipeline()
-
-#         return Response("Training successful !!")
-
-#     except Exception as e:
-#         return Response(f"Error Occurred! {e}")
-
-# router = APIRouter(prefix="/api")
-# @app.post("/")
-# async def predictRouteClient(request: Request):
-#     try:
-#         form = DataForm(request)
-#         await form.get_insurance_data()
-        
-#         insurance_data = InsuranceData(
-#                             months_as_customer=form.months_as_customer or 0,
-#                             age=form.age or 0,
-#                             policy_state=form.policy_state or "",
-#                             policy_csl=form.policy_csl or "",
-#                             policy_deductable=form.policy_deductable or 0,
-#                             policy_annual_premium=form.policy_annual_premium or 0.0,
-#                             umbrella_limit=form.umbrella_limit or 0,
-#                             insured_sex=form.insured_sex or "",
-#                             insured_education_level=form.insured_education_level or "",
-#                             insured_occupation=form.insured_occupation or "",
-#                             insured_hobbies=form.insured_hobbies or "",
-#                             insured_relationship=form.insured_relationship or "",
-#                             capital_gains=form.capital_gains or 0,
-#                             capital_loss=form.capital_loss or 0,
-#                             incident_type=form.incident_type or "",
-#                             collision_type=form.collision_type or "",
-#                             incident_severity=form.incident_severity or "",
-#                             authorities_contacted=form.authorities_contacted or "",
-#                             incident_state=form.incident_state or "",
-#                             incident_hour_of_the_day=form.incident_hour_of_the_day or 0,
-#                             number_of_vehicles_involved=form.number_of_vehicles_involved or 0,
-#                             property_damage=form.property_damage or "",
-#                             bodily_injuries=form.bodily_injuries or 0,
-#                             witnesses=form.witnesses or 0,
-#                             police_report_available=form.police_report_available or "",
-#                             total_claim_amount=form.total_claim_amount or 0,
-#                             injury_claim=form.injury_claim or 0,
-#                             property_claim=form.property_claim or 0,
-#                             vehicle_claim=form.vehicle_claim or 0,
-#                             auto_make=form.auto_make or "",
-#                             auto_year=form.auto_year or 0,
-#                         )
-
-        
-#         insurance_df = insurance_data.get_insurance_input_data_frame()
-
-#         model_predictor = InsuranceClassifier()
-
-#         value = model_predictor.predict(dataframe=insurance_df)[0]
-
-#         status = None
-#         if value == 1:
-#             status = "Yes"
-#         else:
-#             status = "No"
-
-#         return templates.TemplateResponse(
-#             "insurance.html",
-#             {"request": request, "context": status},
-#         )
-        
-#     except Exception as e:
-#         return {"status": False, "error": f"{e}"}
-
-
-# if __name__ == "__main__":
-#     app_run(app, host=APP_HOST, port=APP_PORT)

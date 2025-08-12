@@ -1,10 +1,11 @@
-from src.entity.config_entity import ModelEvaluationConfig
-from src.entity.artifact_entity import ModelTrainerArtifact, DataIngestionArtifact, ModelEvaluationArtifact
+from src.entity.config_entity import ModelEvaluationConfig, DataIngestionConfig, ModelTrainerConfig
+from src.entity.artifact_entity import ClassificationMetricArtifact, ModelTrainerArtifact, DataIngestionArtifact, ModelEvaluationArtifact
 from sklearn.metrics import f1_score
 from src.exception import CustomException
 from src.constants import TARGET_COLUMN
 from src.logger import logging
-import sys
+import sys, json, os
+from dataclasses import asdict
 import pandas as pd
 from typing import Optional
 from src.entity.s3_estimator import S3_InsuranceEstimator
@@ -13,7 +14,9 @@ from src.target_mapping import TargetValueMapping, InsuranceModel
 from src.exception import CustomException
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
-
+from src.utils.main_utils import read_yaml_file
+from dotenv import load_dotenv
+load_dotenv()
 
 from typing import Optional
 
@@ -83,10 +86,7 @@ class ModelEvaluation:
             if best_model is not None:
                 y_hat_best_model = best_model.predict(x)
 
-                # # Convert predictions to same type as y
-                # if set(y) == {'Y', 'N'} and set(y_hat_best_model) <= {0, 1}:
-                #     y_hat_best_model = ['Y' if p == 1 else 'N' for p in y_hat_best_model]
-                # Encode y_true (string labels) into numeric values
+                
                 if y.dtype == object or isinstance(y[0], str):
                     encoder = LabelEncoder()
                     y = encoder.fit_transform(y)  # N → 0, Y → 1
@@ -115,7 +115,7 @@ class ModelEvaluation:
         """
         Method Name :   initiate_model_evaluation
         Description :   This function is used to initiate all steps of the model evaluation
-        
+
         Output      :   Returns model evaluation artifact
         On Failure  :   Write an exception log and then raise an exception
         """  
@@ -127,14 +127,62 @@ class ModelEvaluation:
                 is_model_accepted=evaluate_model_response.is_model_accepted,
                 s3_model_path=s3_model_path,
                 trained_model_path=self.model_trainer_artifact.trained_model_file_path,
-                changed_accuracy=evaluate_model_response.difference)
+                changed_accuracy=evaluate_model_response.difference
+            )
 
+            # Ensure the directory exists (not the file itself)
+            artifact_file_path = self.model_eval_config.artifact_file_path
+            os.makedirs(os.path.dirname(artifact_file_path), exist_ok=True)
+
+            # Save artifact to JSON
+            with open(artifact_file_path, 'w') as f:
+                json.dump(asdict(model_evaluation_artifact), f, indent=4)
+
+            logging.info(f"Model evaluation artifact saved at: {artifact_file_path}")
             logging.info(f"Model evaluation artifact: {model_evaluation_artifact}")
             return model_evaluation_artifact
-        
+
         except Exception as e:
             _, _, exc_tb = sys.exc_info()
             raise CustomException(e, exc_tb)
+
+
+if __name__ == '__main__':
+    
+    metric_path = "artifact/model_trainer/trained_model/metrics.yaml"
+    metrics = read_yaml_file(metric_path)
+    
+    from dotenv import load_dotenv
+    load_dotenv()
+
+    
+    model_eval_config = ModelEvaluationConfig()
+    
+    data_ingestion_config = DataIngestionConfig()
+    data_ingestion_artifact = DataIngestionArtifact(
+        raw_file_path=data_ingestion_config.feature_store_file_path,
+        trained_file_path=data_ingestion_config.training_file_path,
+        test_file_path=data_ingestion_config.testing_file_path
+    )
+
+    model_trainer_config = ModelTrainerConfig()
+            
+    test_metric_artifact = ClassificationMetricArtifact(
+                            f1_score=metrics.get("f1_score", 0.0),
+                            precision_score=metrics.get("precision_score", 0.0),
+                            recall_score=metrics.get("recall_score", 0.0),
+                        )
+
+            
+    model_trainer_artifact = ModelTrainerArtifact(
+            trained_model_file_path=model_trainer_config.trained_model_file_path,
+            test_metric_artifact=test_metric_artifact
+        )
         
-        
-        
+    model_evaluation_config = ModelEvaluationConfig()
+    model_evaluation_artifact = ModelEvaluation(
+        model_eval_config=model_evaluation_config,
+        data_ingestion_artifact=data_ingestion_artifact,
+        model_trainer_artifact=model_trainer_artifact
+    )
+    model_evaluation_artifact.evaluate_model()

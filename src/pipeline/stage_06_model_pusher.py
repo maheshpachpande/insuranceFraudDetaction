@@ -1,18 +1,19 @@
 import sys
 import logging
 from src.components.model_evaluation import ModelEvaluation
-from src.entity.config_entity import ModelTrainerConfig, DataTransformationConfig, DataIngestionConfig, ModelEvaluationConfig
-from src.entity.artifact_entity import ClassificationMetricArtifact,DataTransformationArtifact, ModelTrainerArtifact, DataIngestionArtifact
+from src.entity.config_entity import ModelTrainerConfig, DataIngestionConfig, ModelEvaluationConfig
+from src.entity.artifact_entity import ModelEvaluationArtifact,ClassificationMetricArtifact, ModelTrainerArtifact, DataIngestionArtifact
 from src.utils.main_utils import read_yaml_file
 
-metric_path = "artifact/model_trainer/trained_model/metrics.yaml"
+metric_path = "artifact/model_evaluation/model_evaluation_artifact.yaml"
 metrics = read_yaml_file(metric_path)
 
-STAGE_NAME = "Model Evolution stage"
+STAGE_NAME = "Model Pusher stage"
 
-class ModelEvolutionTrainingPipeline:
+class ModelPusherTrainingPipeline:
     def __init__(self):
         pass
+    
     
     
     def main(self):
@@ -22,8 +23,9 @@ class ModelEvolutionTrainingPipeline:
                 raw_file_path=data_ingestion_config.feature_store_file_path,
                 trained_file_path=data_ingestion_config.training_file_path,
                 test_file_path=data_ingestion_config.testing_file_path
-            )
-                    
+            )            
+         
+
             model_trainer_config = ModelTrainerConfig()
             
             test_metric_artifact = ClassificationMetricArtifact(
@@ -44,17 +46,19 @@ class ModelEvolutionTrainingPipeline:
                 data_ingestion_artifact=data_ingestion_artifact,
                 model_trainer_artifact=model_trainer_artifact
             )
-            model_evaluation_artifact.evaluate_model()
+            
+            
         except Exception as e:
             logging.error(f"Error during model training and evaluation: {e}")
             raise e
             
 if __name__ == "__main__":
     try:
-        model_evolution_pipeline = ModelEvolutionTrainingPipeline()
+        model_evolution_pipeline = ModelPusherTrainingPipeline()
         model_evolution_pipeline.main()
     except Exception as e:
         logging.error(f"Error during model training and evaluation: {e}")
         sys.exit(1)
             
             
+    

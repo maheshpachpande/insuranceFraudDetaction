@@ -1,0 +1,6 @@
+{
+    "is_model_accepted": false,
+    "changed_accuracy": -0.3149371800837598,
+    "s3_model_path": "model.pkl",
+    "trained_model_path": "artifact/model_trainer/trained_model/model.pkl"
+}

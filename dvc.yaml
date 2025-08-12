@@ -73,3 +73,16 @@ stages:
       - artifact/data_validation/validated/test.csv
     # outs:
     #   - artifact/model_evaluation/evaluation_report.yaml
+
+
+  model_pusher:
+    cmd: python src/components/model_pusher.py
+    deps:
+      - src/components/model_pusher.py
+      - src/cloud_storage/aws_storage.py
+      - src/entity/artifact_entity.py
+      - src/entity/config_entity.py
+      - src/entity/s3_estimator.py
+      - artifact/model_trainer/trained_model/model.pkl
+    # outs:
+    #   - s3://your-bucket-name/path/to/model/  # This is logical; DVC doesn't track S3 objects but you document that your model is pushed here.

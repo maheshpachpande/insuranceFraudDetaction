@@ -6,6 +6,8 @@ from src.pipeline.stage_02_data_validation import DataValidationTrainingPipeline
 from src.pipeline.stage_03_data_transformation import DataTransformationTrainingPipeline
 from src.pipeline.stage_04_model_trainer import ModelTrainingPipeline
 from src.pipeline.stage_05_model_evolution import ModelEvolutionTrainingPipeline
+from src.pipeline.stage_06_model_pusher import ModelPusherTrainingPipeline
+
 import matplotlib
 matplotlib.use('Agg')  # Use non-GUI backend to avoid tkinter errors
 
@@ -68,4 +70,10 @@ except Exception as e:
     logging.error(f"Error during model training and evaluation: {e}")
     sys.exit(1)
             
-            
+STAGE_NAME = "Model Pusher stage"
+try:
+    model_evolution_pipeline = ModelPusherTrainingPipeline()
+    model_evolution_pipeline.main()
+except Exception as e:
+    logging.error(f"Error during model training and evaluation: {e}")
+    sys.exit(1)

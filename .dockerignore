@@ -1,0 +1,9 @@
+artifact
+venv
+env
+.env
+.gitignore
+logs
+template.py
+LICENCE
+src.egg-info
