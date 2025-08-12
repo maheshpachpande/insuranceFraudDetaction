@@ -141,8 +141,8 @@ stages:
       size: 1008403
     - path: src/components/model_trainer.py
       hash: md5
-      md5: 31d6c71c6a20470455437273dafcbf7d
-      size: 5091
+      md5: 63f0f47228d419606b630685df1ab1e9
+      size: 5547
     - path: src/entity/artifact_entity.py
       hash: md5
       md5: dc643d9ab2aa1b3bbfab546976d62bba
@@ -160,3 +160,30 @@ stages:
       hash: md5
       md5: 2130cbd5da388d7e5fc80f68d3bfa5d0
       size: 462237
+  model_evaluation:
+    cmd: python src/components/model_evaluation.py
+    deps:
+    - path: artifact/data_validation/validated/test.csv
+      hash: md5
+      md5: 2521721170a817932a72680dc447155f
+      size: 49515
+    - path: artifact/model_trainer/trained_model/model.pkl
+      hash: md5
+      md5: 2130cbd5da388d7e5fc80f68d3bfa5d0
+      size: 462237
+    - path: src/components/model_evaluation.py
+      hash: md5
+      md5: d46aa12e02dbe14db6180f622cde52e0
+      size: 5908
+    - path: src/entity/artifact_entity.py
+      hash: md5
+      md5: dc643d9ab2aa1b3bbfab546976d62bba
+      size: 1033
+    - path: src/entity/config_entity.py
+      hash: md5
+      md5: d5d54425bbab930b47c35a6acec50a75
+      size: 3385
+    - path: src/utils/main_utils.py
+      hash: md5
+      md5: 6eddcc5e0b0c3b60ab7c5968ad688e32
+      size: 4224

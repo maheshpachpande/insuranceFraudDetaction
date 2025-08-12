@@ -58,3 +58,18 @@ stages:
 
     outs:
       - artifact/model_trainer/trained_model/model.pkl
+
+
+
+  
+  model_evaluation:
+    cmd: python src/components/model_evaluation.py
+    deps:
+      - src/components/model_evaluation.py
+      - src/entity/config_entity.py
+      - src/entity/artifact_entity.py
+      - src/utils/main_utils.py
+      - artifact/model_trainer/trained_model/model.pkl
+      - artifact/data_validation/validated/test.csv
+    # outs:
+    #   - artifact/model_evaluation/evaluation_report.yaml

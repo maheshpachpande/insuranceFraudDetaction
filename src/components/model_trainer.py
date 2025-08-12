@@ -1,4 +1,4 @@
-import sys
+import sys, os, yaml
 from typing import Tuple, Any
 import numpy as np
 from sklearn.pipeline import Pipeline
@@ -20,6 +20,12 @@ from src.entity.artifact_entity import (
     ClassificationMetricArtifact
 )
 from src.target_mapping import InsuranceModel
+
+
+
+import matplotlib
+matplotlib.use('Agg')
+
 
 
 class ModelTrainer:
@@ -93,6 +99,16 @@ class ModelTrainer:
             )
 
             save_object(self.model_trainer_config.trained_model_file_path, insurance_model)
+            
+            # --- Save metrics YAML ---
+            metrics_path = os.path.join(
+                os.path.dirname(self.model_trainer_config.trained_model_file_path),
+                "metrics.yaml"
+            )
+            with open(metrics_path, "w") as f:
+                yaml.dump(metric_artifact.__dict__, f)
+
+            logging.info(f"Saved metrics artifact yaml at: {metrics_path}")
 
             return ModelTrainerArtifact(
                 trained_model_file_path=self.model_trainer_config.trained_model_file_path,
