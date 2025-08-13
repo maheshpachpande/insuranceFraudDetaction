@@ -25,6 +25,6 @@ CMD ["python", "app.py"]
 
 # docker build -t insurance .
 # docker run -p 8080:8080 insurance
-# docker tag insurance maheshp23/insurance
+# docker tag insurance maheshp23/insurance:latest
 # docker push maheshp23/insurance
 # docker pull maheshp23/insurance
